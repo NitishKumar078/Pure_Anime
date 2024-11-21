@@ -10,9 +10,9 @@ const config = {
     minimizer: [new CssMinimizerPlugin()],
   },
   entry: {
-    content: "./src/content_script/content.js",
-    background: "./src/Background/background.js",
-    react: "./src/react/index.jsx",
+    content: "./src/content_script/content.ts",
+    background: "./src/Background/background.ts",
+    react: "./src/react/index.tsx",
   },
   output: {
     filename: "[name].js",
@@ -37,7 +37,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.js|jsx$/,
+        test: /\.ts|tsx$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -50,6 +50,7 @@ const config = {
                 },
               ],
               ["@babel/preset-react", { runtime: "automatic" }],
+              ["@babel/preset-typescript"],
             ],
           },
         },
@@ -61,7 +62,7 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: [".ts", ".tsx"],
   },
 };
 

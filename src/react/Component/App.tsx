@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import Button from "./Button/Button";
 import Freatures from "./Features/Freatures";
 
