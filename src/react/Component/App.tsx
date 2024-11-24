@@ -1,11 +1,19 @@
-import Button from "./Button/Button";
+import Button from "./ui/Button/Button";
+import Mode from "./ui/mode/mode";
+import "./App.css";
 import Freatures from "./Features/Freatures";
 
 const App = () => {
   return (
-    <div>
+    <div className="App">
       <h1>Pure Anime</h1>
       <Button />
+      <div id="mode">
+        <label>
+          <b>Strict Mode :</b>
+        </label>
+        <Mode />
+      </div>
       <Freatures />
     </div>
   );

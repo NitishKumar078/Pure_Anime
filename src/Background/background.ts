@@ -2,7 +2,8 @@
  * This is background script of the chrome extention
  *
  */
-console.log("hello world... from the background script");
+let ignoreUrls = ["https://www.google.com/", "chrome://newtab/"];
+
 chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
   const icon = action === "activate" ? "active_icon" : "icon";
   chrome.action.setIcon(
@@ -20,8 +21,27 @@ chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
           chrome.runtime.lastError
         );
       } else {
-        console.log(`${action.capitalize()} icon set successfully.`);
+        console.log(`${action.toUpperCase()} icon set successfully.`);
       }
     }
   );
+
+  // activate the funtionaly of the extention
+  // Listener for when the active tab changes
+  if (action === "activate") {
+    chrome.tabs.onActivated.addListener(function (activeInfo) {
+      chrome.tabs.get(activeInfo.tabId, function (tab) {
+        console.log("Tab activated: ", tab);
+        if (
+          tab.openerTabId &&
+          tab.pendingUrl &&
+          !ignoreUrls.includes(tab.pendingUrl)
+        ) {
+          chrome.tabs.remove(activeInfo.tabId, function () {
+            console.log("Tab closed: ", activeInfo.tabId);
+          });
+        }
+      });
+    });
+  }
 });

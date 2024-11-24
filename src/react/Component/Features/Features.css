@@ -12,7 +12,7 @@
   transition: 0.8s;
 }
 
-.active,
+.expand,
 .collapsible:hover {
   background-color: #555;
 }
@@ -26,4 +26,74 @@
 
 .show {
   display: block;
+}
+
+/* From Uiverse.io by shreyasm-dev */
+/* Hide the default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.container {
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  display: inline-flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 1.3em;
+  width: 1.3em;
+  background-color: #ccc;
+  border-radius: 100%;
+  background: #e8e8e8;
+  box-shadow: 3px 3px 5px #c5c5c5, -3px -3px 5px #ffffff;
+  transition-duration: 0.5s;
+}
+
+.container input:checked ~ .checkmark {
+  box-shadow: inset 3px 3px 5px #c5c5c5, inset -3px -3px 5px #ffffff;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  opacity: 0;
+}
+.container .text {
+  font-size: 15px;
+}
+
+.container input:checked ~ .checkmark:after {
+  opacity: 1;
+}
+
+.container .checkmark:after {
+  left: 0.45em;
+  top: 0.25em;
+  width: 0.25em;
+  height: 0.5em;
+  border: solid darkgray;
+  border-width: 0 0.15em 0.15em 0;
+  transform: rotate(45deg);
+}
+
+#feature_list {
+  position: relative;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }

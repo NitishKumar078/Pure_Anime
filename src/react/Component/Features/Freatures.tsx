@@ -8,19 +8,32 @@ const Features = () => {
     setActive((prev) => !prev);
   };
 
+  const checklisendmesg = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0].id) {
+        chrome.tabs.sendMessage(tabs[0].id, { action: "remove_top_layer" });
+      }
+    });
+  };
+
   return (
     <div>
-      <button
-        className={`collapsible ${active ? "active" : ""}`}
-        onClick={show}
-      >
-        {active ? "Close Section 1" : "Open Section 1"}
+      <button className={`collapsible ${active && "expand"}`} onClick={show}>
+        Options
       </button>
       <div className={`content ${active ? "show" : ""}`}>
-        <ul>
-          <li>Item 1</li>
-          <li>Item 2</li>
-          <li>Item 3</li>
+        <ul id="feature_list">
+          <div>
+            <label className="container">
+              <div>
+                <input type="checkbox" onClick={checklisendmesg} />
+                <div className="checkmark"></div>
+              </div>
+              <div>
+                <div id="text">Remove the top layer</div>
+              </div>
+            </label>
+          </div>
         </ul>
       </div>
     </div>
