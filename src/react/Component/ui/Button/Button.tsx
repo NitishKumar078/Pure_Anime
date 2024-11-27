@@ -4,10 +4,10 @@ import { Activation } from "../../Hooks/useIcon";
 const Button = () => {
   const [isActive, setIsActive] = Activation("active-status", false);
 
-  const handleOnClickActive = async () => {
+  const handleOnClickActive = () => {
     const newState = !isActive;
     setIsActive(newState);
-    await chrome.runtime.sendMessage({
+    chrome.runtime.sendMessage({
       action: newState ? "activate" : "normal",
     });
   };

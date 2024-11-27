@@ -25,13 +25,26 @@ chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
       }
     }
   );
-
-  // activate the funtionaly of the extention
-  // Listener for when the active tab changes
   if (action === "activate") {
-    chrome.tabs.onActivated.addListener(function (activeInfo) {
+    chrome.storage.local.set({ "active-status": "true" });
+  } else {
+    chrome.storage.local.set({ "active-status": "false" });
+  }
+});
+
+// activate the funtionaly of the extention
+// Listener for when the active tab change
+
+// Listener for when the active tab changes
+chrome.tabs.onActivated.addListener(function (activeInfo) {
+  // Retrieve active-status from local storage
+  chrome.storage.local.get("active-status", function (result) {
+    if (result["active-status"] === "true") {
+      // Get details about the active tab
       chrome.tabs.get(activeInfo.tabId, function (tab) {
         console.log("Tab activated: ", tab);
+
+        // Check if the tab should be closed
         if (
           tab.openerTabId &&
           tab.pendingUrl &&
@@ -42,6 +55,6 @@ chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
           });
         }
       });
-    });
-  }
+    }
+  });
 });
