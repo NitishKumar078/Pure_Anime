@@ -10,7 +10,7 @@ const App = () => {
       <Button />
       <div id="mode">
         <label>
-          <b>Strict Mode :</b>
+          <span>Strict Mode :</span>
         </label>
         <Mode />
       </div>
