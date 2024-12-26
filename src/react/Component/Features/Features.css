@@ -12,11 +12,6 @@
   transition: 0.8s;
 }
 
-.expand,
-.collapsible:hover {
-  background-color: #555;
-}
-
 .content {
   display: none;
   overflow: hidden;
@@ -28,7 +23,6 @@
   display: block;
 }
 
-/* From Uiverse.io by shreyasm-dev */
 /* Hide the default checkbox */
 .container input {
   position: absolute;
@@ -41,7 +35,7 @@
 .container {
   position: relative;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 17px;
   user-select: none;
   display: inline-flex;
   flex-direction: row;
@@ -95,5 +89,5 @@
   gap: 10px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 3px;
 }

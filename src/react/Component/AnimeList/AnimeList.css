@@ -1,0 +1,45 @@
+.AnimeList.content #option_list {
+  padding: 3px;
+  margin: 2px;
+  width: 12rem;
+}
+ul {
+  list-style-type: none;
+}
+
+li {
+  position: relative;
+}
+
+.anime-link {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: medium;
+}
+
+.anime-link img {
+  display: none;
+}
+
+.anime-link:hover {
+  font-weight: bold;
+}
+
+.anime-link:hover img {
+  display: block;
+}
+
+.AnimeListcontainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  /* From https://css.glass */
+  background: hsl(0deg 17.42% 6.83% / 57%);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(228, 209, 209, 0.3);
+}

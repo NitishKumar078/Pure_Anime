@@ -2,6 +2,7 @@ import Button from "./ui/Button/Button";
 import Mode from "./ui/mode/mode";
 import "./App.css";
 import Freatures from "./Features/Freatures";
+import AnimeList from "./AnimeList/AnimeList";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         </label>
         <Mode />
       </div>
+      <AnimeList />
       <Freatures />
     </div>
   );

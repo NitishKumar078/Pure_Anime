@@ -32,8 +32,6 @@ chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
   }
 });
 
-// activate the funtionaly of the extention
-// Listener for when the active tab change
 
 // Listener for when the active tab changes
 chrome.tabs.onActivated.addListener(function (activeInfo) {

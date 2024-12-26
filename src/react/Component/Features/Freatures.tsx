@@ -18,7 +18,11 @@ const Features = () => {
 
   return (
     <div>
-      <button className={`collapsible ${active && "expand"}`} onClick={show}>
+      <button
+        className={`collapsible ${active && "expand"}`}
+        onClick={show}
+        title="click to expand options"
+      >
         Options
       </button>
       <div className={`content ${active ? "show" : ""}`}>
