@@ -20,7 +20,7 @@ const AnimeList = () => {
       <button
         className={`AnimeListcontainer collapsible ${active && "expand"}`}
         onClick={show}
-        title="click to expand anime list"
+        title="click to expand/collapse anime list"
       >
         Anime List
         <img

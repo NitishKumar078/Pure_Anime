@@ -21,7 +21,7 @@ const Features = () => {
       <button
         className={`collapsible ${active && "expand"}`}
         onClick={show}
-        title="click to expand options"
+        title="click to expand/collapse options"
       >
         Options
       </button>
