@@ -2,7 +2,13 @@
  * This is background script of the chrome extention
  *
  */
-let ignoreUrls = ["https://www.google.com/", "chrome://newtab/"];
+let ignoreUrls = [
+  "https://www.google.com/",
+  "chrome://newtab/",
+  "https://aniwatchtv.to/",
+  "https://www.miruro.tv/",
+  "https://zorotv.com.in/",
+];
 
 chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
   const icon = action === "activate" ? "active_icon" : "icon";
@@ -32,7 +38,6 @@ chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
   }
 });
 
-
 // Listener for when the active tab changes
 chrome.tabs.onActivated.addListener(function (activeInfo) {
   // Retrieve active-status from local storage
@@ -44,6 +49,7 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
 
         // Check if the tab should be closed
         if (
+          tab.id &&
           tab.openerTabId &&
           tab.pendingUrl &&
           !ignoreUrls.includes(tab.pendingUrl)
