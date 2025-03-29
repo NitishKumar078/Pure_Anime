@@ -34,7 +34,7 @@ const Features = () => {
                 <div className="checkmark"></div>
               </div>
               <div>
-                <div id="text">Remove the top layer</div>
+                <div id="text">Disable the top layer</div>
               </div>
             </label>
           </div>

@@ -37,6 +37,7 @@ function handleAction(action: { type: string }) {
         if (element instanceof HTMLElement) {
           if (checkCondition(element)) {
             topLayerelement = element;
+            element.style.display = "none";
             break;
           }
         }
