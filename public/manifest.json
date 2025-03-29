@@ -13,14 +13,7 @@
     "48": "./icons/icon48.png",
     "128": "./icons/icon128.png"
   },
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "storage",
-    "tabs",
-    "topSites",
-    "webNavigation"
-  ],
+  "permissions": ["scripting", "storage"],
   "host_permissions": ["*://*/*"],
   "background": {
     "service_worker": "background.js"

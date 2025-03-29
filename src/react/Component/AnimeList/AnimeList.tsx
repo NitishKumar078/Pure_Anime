@@ -26,7 +26,7 @@ const AnimeList = () => {
         <img
           width="24"
           height="24"
-          src="https://img.icons8.com/pulsar-color/48/about.png"
+          src="./icons/about.png"
           title="Before click on anime link make sure deactivate the extension by clicking on button above"
           alt="about"
         />

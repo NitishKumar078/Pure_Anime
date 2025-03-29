@@ -9,12 +9,12 @@ const App = () => {
     <div className="App">
       <h1>Pure Anime</h1>
       <Button />
-      <div id="mode" title="Applies the options feature">
+      {/* <div id="mode" title="Applies the options feature">
         <label>
           <span>Strict Mode :</span>
         </label>
         <Mode />
-      </div>
+      </div> */}
       <AnimeList />
       <Freatures />
     </div>
