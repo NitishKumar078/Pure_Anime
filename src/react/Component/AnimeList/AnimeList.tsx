@@ -9,9 +9,9 @@ const AnimeList = () => {
   };
 
   const animes = [
-    { link: "https://www.miruro.tv/", name: "miruro" },
+    { link: "https://www.miruro.to/", name: "miruro" },
     { link: "https://zorotv.com.in/", name: "zorotv" },
-    { link: "https://aniwatchtv.to/", name: "aniwatchtv" },
+    { link: "https://aniwatch.re/", name: "aniwatchtv" },
     // Add more anime objects as needed
   ];
 

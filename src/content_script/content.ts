@@ -20,7 +20,7 @@ function checkCondition(element: HTMLElement) {
   const cssObj = window.getComputedStyle(element);
 
   return (
-    cssObj.getPropertyValue("position") === "absolute" &&
+    ["absolute", "fixed"].includes(cssObj.getPropertyValue("position")) &&
     cssObj.getPropertyValue("top") === "0px" &&
     cssObj.getPropertyValue("left") === "0px" &&
     cssObj.getPropertyValue("pointer-events") === "none" &&
