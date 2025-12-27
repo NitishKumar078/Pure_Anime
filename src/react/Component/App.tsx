@@ -1,5 +1,4 @@
 import Button from "./ui/Button/Button";
-import Mode from "./ui/mode/mode";
 import "./App.css";
 import AnimeList from "./AnimeList/AnimeList";
 
