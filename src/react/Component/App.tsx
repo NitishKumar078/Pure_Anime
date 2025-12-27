@@ -16,7 +16,7 @@ const App = () => {
         <Mode />
       </div> */}
       <AnimeList />
-      <Freatures />
+      {/* <Freatures /> */}
     </div>
   );
 };

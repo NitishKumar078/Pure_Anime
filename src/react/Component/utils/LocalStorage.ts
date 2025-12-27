@@ -13,7 +13,7 @@ export function getItem(key: string) {
 
 export function setItem(key: string, value: any) {
   try {
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     console.log("error", error);
   }
