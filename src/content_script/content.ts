@@ -4,6 +4,15 @@
  */
 
 let intervalId: NodeJS.Timeout | null = null;
+let lastClickX = 0;
+let lastClickY = 0;
+
+document.addEventListener('mousedown', (e) => {
+  if (e.isTrusted) {
+    lastClickX = e.clientX;
+    lastClickY = e.clientY;
+  }
+}, true);
 
 chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
   if (action === "remove_top_layer") {
@@ -12,6 +21,8 @@ chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
   } else if (action === "stop") {
     // Later, when you want to stop
     handleAction({ type: "stop" });
+  } else if (action === "simulate_click") {
+    handleAction({ type: "simulate_click" });
   }
   return true;
 });
@@ -57,6 +68,14 @@ function handleAction(action: { type: string }) {
         intervalId = null;
       }
       // Additional cleanup code if needed
+      break;
+    case "simulate_click":
+      if (lastClickX > 0 || lastClickY > 0) {
+        const targetElement = document.elementFromPoint(lastClickX, lastClickY);
+        if (targetElement instanceof HTMLElement) {
+          targetElement.click();
+        }
+      }
       break;
     default:
       // Handle other action types if necessary

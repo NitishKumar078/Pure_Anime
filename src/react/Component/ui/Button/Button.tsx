@@ -13,17 +13,13 @@ const Button = () => {
   };
 
   return (
-    <div>
+    <div className="action-button-wrapper">
       <button
-        className={`button ${isActive && "active"}`}
+        className={`modern-toggle-btn ${isActive ? "active" : ""}`}
         onClick={handleOnClickActive}
       >
-        <span className="button_lg">
-          <span className="button_sl"></span>
-          <span className="button_text">
-            {isActive ? "Deactivate" : "Activated"}
-          </span>
-        </span>
+        <div className="toggle-indicator"></div>
+        <span className="toggle-text">{isActive ? "Enabled" : "Disabled"}</span>
       </button>
     </div>
   );

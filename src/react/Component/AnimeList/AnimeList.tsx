@@ -3,13 +3,12 @@ import "./AnimeList.css";
 import { getItem, setItem } from "../utils/LocalStorage";
 
 const defaultAnimes = [
-  { link: "https://www.miruro.to/", name: "miruro" },
+  { link: "https://hianime.re/", name: "hianime" },
   { link: "https://zorotv.com.in/", name: "zorotv" },
   { link: "https://aniwatch.re/", name: "aniwatchtv" },
 ];
 
 const AnimeList = () => {
-  const [active, setActive] = useState(false);
   const [animes, setAnimes] = useState(defaultAnimes);
   const [newName, setNewName] = useState("");
   const [newLink, setNewLink] = useState("");
@@ -21,6 +20,8 @@ const AnimeList = () => {
     const stored = getItem("animes");
     if (stored) {
       setAnimes(stored);
+    } else {
+      setItem("animes", defaultAnimes);
     }
   }, []);
 
@@ -29,8 +30,22 @@ const AnimeList = () => {
     setItem("animes", newAnimes);
   };
 
-  const show = () => {
-    setActive((prev) => !prev);
+  const addCurrentPage = async () => {
+    try {
+      const tabs = await chrome.tabs.query({
+        active: true,
+        currentWindow: true,
+      });
+      if (tabs.length > 0 && tabs[0].url) {
+        const url = tabs[0].url;
+        let hostname = new URL(url).hostname;
+        hostname = hostname.replace(/^www\./, "");
+        setNewName(hostname);
+        setNewLink(url);
+      }
+    } catch (error) {
+      console.error("Error fetching current tab", error);
+    }
   };
 
   const addAnime = () => {
@@ -56,7 +71,10 @@ const AnimeList = () => {
   const saveEdit = () => {
     if (editName.trim() && editLink.trim()) {
       const newAnimes = [...animes];
-      newAnimes[editingIndex] = { name: editName.trim(), link: editLink.trim() };
+      newAnimes[editingIndex] = {
+        name: editName.trim(),
+        link: editLink.trim(),
+      };
       saveAnimes(newAnimes);
       setEditingIndex(-1);
     }
@@ -68,21 +86,7 @@ const AnimeList = () => {
 
   return (
     <>
-      <button
-        className={`AnimeListcontainer collapsible ${active && "expand"}`}
-        onClick={show}
-        title="click to expand/collapse anime list"
-      >
-        Anime List
-        <img
-          width="24"
-          height="24"
-          src="./icons/about.png"
-          title="Before click on anime link make sure deactivate the extension by clicking on button above"
-          alt="about"
-        />
-      </button>
-      <div className={`AnimeList content ${active ? "show" : ""}`}>
+      <div className="AnimeList content show">
         <ul id="option_list">
           {animes.map((anime, index) => (
             <li key={index} className="anime-item">
@@ -92,18 +96,34 @@ const AnimeList = () => {
                     type="text"
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
-                    placeholder="Name"
+                    placeholder="Anime Name"
                     className="edit-input"
                   />
                   <input
                     type="url"
                     value={editLink}
                     onChange={(e) => setEditLink(e.target.value)}
-                    placeholder="Link"
+                    placeholder="URL / Link"
                     className="edit-input"
                   />
-                  <button onClick={saveEdit} className="save-btn">Save</button>
-                  <button onClick={cancelEdit} className="cancel-btn">Cancel</button>
+                  <div
+                    style={{ display: "flex", gap: "8px", marginTop: "4px" }}
+                  >
+                    <button
+                      onClick={saveEdit}
+                      className="save-btn"
+                      style={{ flex: 1 }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={cancelEdit}
+                      className="cancel-btn"
+                      style={{ flex: 1 }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -112,13 +132,23 @@ const AnimeList = () => {
                     target="_blank"
                     rel="noreferrer"
                     className="anime-link"
+                    title={anime.link}
                   >
                     {anime.name}
-
                   </a>
                   <div className="item-actions">
-                    <button onClick={() => startEdit(index)} className="edit-btn">Edit</button>
-                    <button onClick={() => deleteAnime(index)} className="delete-btn">Delete</button>
+                    <button
+                      onClick={() => startEdit(index)}
+                      className="edit-btn"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => deleteAnime(index)}
+                      className="delete-btn"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </>
               )}
@@ -137,10 +167,21 @@ const AnimeList = () => {
             type="url"
             value={newLink}
             onChange={(e) => setNewLink(e.target.value)}
-            placeholder="New anime link"
+            placeholder="Full URL link"
             className="add-input"
           />
-          <button onClick={addAnime} className="add-btn">Add</button>
+          <div className="add-controls">
+            <button
+              onClick={addCurrentPage}
+              className="current-page-btn"
+              title="Add current active tab as favorite"
+            >
+              Use Current Tab
+            </button>
+            <button onClick={addAnime} className="add-btn">
+              Add
+            </button>
+          </div>
         </div>
       </div>
     </>

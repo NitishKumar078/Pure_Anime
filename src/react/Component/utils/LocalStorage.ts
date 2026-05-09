@@ -14,6 +14,7 @@ export function getItem(key: string) {
 export function setItem(key: string, value: any) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
+    chrome.storage.local.set({ [key]: value });
   } catch (error) {
     console.log("error", error);
   }
