@@ -2,13 +2,34 @@
  * This is background script of the chrome extention
  *
  */
-let ignoreUrls = [
+const baseUrls = [
   "https://www.google.com/",
   "chrome://newtab/",
-  "https://aniwatchtv.to/",
-  "https://www.miruro.tv/",
-  "https://zorotv.com.in/",
 ];
+
+const isAllowedUrl = (url: string, storedAnimes: any[]) => {
+  if (!url) return false;
+  if (baseUrls.some(bUrl => url.startsWith(bUrl))) return true;
+
+  if (storedAnimes && Array.isArray(storedAnimes) && storedAnimes.length > 0) {
+    return storedAnimes.some(anime => {
+      try {
+        const hostname = new URL(anime.link).hostname.replace(/^www\./, "");
+        return url.toLowerCase().includes(hostname.toLowerCase());
+      } catch {
+        return url.toLowerCase().includes(anime.link.toLowerCase());
+      }
+    });
+  }
+
+  // Fallback if storage is empty
+  const fallbackUrls = [
+    "aniwatchtv.to",
+    "miruro.tv",
+    "zorotv.com.in",
+  ];
+  return fallbackUrls.some(fallback => url.toLowerCase().includes(fallback));
+};
 
 const updateIcon = (isActive: boolean) => {
   const icon = isActive ? "active_icon" : "icon";
@@ -51,8 +72,8 @@ chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
 
 // Listener for when the active tab changes
 chrome.tabs.onActivated.addListener(function (activeInfo) {
-  // Retrieve active-status from local storage
-  chrome.storage.local.get("active-status", function (result) {
+  // Retrieve active-status and animes list from local storage
+  chrome.storage.local.get(["active-status", "animes"], function (result) {
     if (result["active-status"] === "true") {
       // Get details about the active tab
       chrome.tabs.get(activeInfo.tabId, function (tab) {
@@ -63,12 +84,19 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
           tab.id &&
           tab.openerTabId &&
           tab.pendingUrl &&
-          !ignoreUrls.includes(tab.pendingUrl)
+          !isAllowedUrl(tab.pendingUrl, result["animes"])
         ) {
           chrome.tabs.remove(activeInfo.tabId, function () {
             console.log("Tab closed: ", activeInfo.tabId);
+            
             if (tab.openerTabId) {
-              chrome.tabs.sendMessage(tab.openerTabId, { action: "simulate_click" }).catch(err => console.log("Could not simulate click:", err));
+              // Only simulate click if the opener tab is an allowed URL
+              chrome.tabs.get(tab.openerTabId, function (openerTab) {
+                if (openerTab.url && isAllowedUrl(openerTab.url, result["animes"])) {
+                  chrome.tabs.sendMessage(tab.openerTabId!, { action: "simulate_click" })
+                    .catch(err => console.log("Could not simulate click:", err));
+                }
+              });
             }
           });
         }
