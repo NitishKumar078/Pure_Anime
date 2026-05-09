@@ -30,18 +30,16 @@ const updateIcon = (isActive: boolean) => {
   );
 };
 
-// Sync icon on startup and install
-chrome.runtime.onInstalled.addListener(() => {
+const initIcon = () => {
   chrome.storage.local.get("active-status", (result) => {
     updateIcon(result["active-status"] === "true");
   });
-});
+};
 
-chrome.runtime.onStartup.addListener(() => {
-  chrome.storage.local.get("active-status", (result) => {
-    updateIcon(result["active-status"] === "true");
-  });
-});
+// Sync icon on startup, install, and service worker wake-up (like dev reload)
+chrome.runtime.onInstalled.addListener(initIcon);
+chrome.runtime.onStartup.addListener(initIcon);
+initIcon();
 
 chrome.runtime.onMessage.addListener(({ action }, _, sendResponse) => {
   if (action === "activate" || action === "normal") {
